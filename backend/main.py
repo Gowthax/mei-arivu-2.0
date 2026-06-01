@@ -55,11 +55,15 @@ def startup_event():
 
 # Setup CORS for frontend
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+CORSMiddleware,
+allow_origins=[
+"http://localhost:5173",
+"http://localhost:3000",
+"https://mei-arivu-2-0.vercel.app",
+],
+allow_credentials=True,
+allow_methods=[""],
+allow_headers=[""],
 )
 
 # Voice pipeline router — /api/voice/*
