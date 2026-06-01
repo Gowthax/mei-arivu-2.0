@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Shield, User, Lock, Mail } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 export default function LoginPage({ onLoginSuccess }) {
     const [isRegister, setIsRegister] = useState(false);
@@ -12,7 +13,7 @@ export default function LoginPage({ onLoginSuccess }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const endpoint = isRegister ? '/api/auth/register' : '/api/auth/login';
+        const endpoint = isRegister ? `${API_BASE_URL}/api/auth/register` : `${API_BASE_URL}/api/auth/login`;
         
         try {
             let res;
@@ -54,7 +55,7 @@ export default function LoginPage({ onLoginSuccess }) {
     const handleViewerLogin = async () => {
         setLoading(true);
         try {
-            const res = await fetch('/api/auth/viewer', { method: 'POST' });
+            const res = await fetch(`${API_BASE_URL}/api/auth/viewer`, { method: 'POST' });
             const data = await res.json();
             if (res.ok) {
                 login(data.access_token, data.role);

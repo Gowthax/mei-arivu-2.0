@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { User, Shield, Bell, Globe, Palette, Monitor, Moon, Sun, Check, LogOut, Mail, Phone, MapPin, Building, Loader } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 const languages = [
     { code: 'en', label: 'English', native: 'English', flag: '🇬🇧' },
@@ -28,7 +29,7 @@ export default function SettingsView() {
 
     // Fetch profile and preferences on mount
     useEffect(() => {
-        fetch('/api/profile')
+        fetch(`${API_BASE_URL}/api/profile`)
             .then(res => res.json())
             .then(data => {
                 setProfile({
@@ -70,7 +71,7 @@ export default function SettingsView() {
         };
 
         try {
-            const res = await fetch('/api/profile', {
+            const res = await fetch(`${API_BASE_URL}/api/profile`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

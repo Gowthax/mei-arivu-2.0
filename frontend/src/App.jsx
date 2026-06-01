@@ -13,6 +13,8 @@ import AboutView from './components/AboutView';
 import MeiArivuBot from './components/MeiArivuBot';
 import LoginPage from './components/LoginPage';
 import { AuthProvider } from './context/AuthContext';
+import { API_BASE_URL } from './config/api';
+
 
 function DashboardContent({ onGoLanding }) {
     const [activeTab, setActiveTab] = useState('telemetry');
@@ -73,7 +75,7 @@ export default function App() {
     // Theme initialization and synchronization
     React.useEffect(() => {
         const syncTheme = () => {
-            fetch('/api/profile')
+            fetch(`${API_BASE_URL}/api/profile`)
                 .then(res => res.json())
                 .then(data => {
                     const theme = data.theme || 'dark';

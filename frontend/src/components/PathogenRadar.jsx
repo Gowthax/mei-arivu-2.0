@@ -3,6 +3,7 @@ import { AlertTriangle, Shield, Bug, Thermometer, Droplets, Loader, Search, Filt
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, CartesianGrid, Tooltip } from 'recharts';
 import toast from 'react-hot-toast';
 import { useLanguage } from '../context/LanguageContext';
+import { API_BASE_URL } from '../config/api';
 
 export default function PathogenRadar() {
     const { t } = useLanguage();
@@ -20,7 +21,7 @@ export default function PathogenRadar() {
     const [historyLoading, setHistoryLoading] = useState(false);
 
     const fetchRadarData = () => {
-        fetch('/api/pathogens/radar')
+        fetch(`${API_BASE_URL}/api/pathogens/radar`)
             .then(res => res.json())
             .then(data => {
                 setRiskZones(data.riskZones);
@@ -53,7 +54,7 @@ export default function PathogenRadar() {
             setExpandedZoneId(site_id);
             setHistoryLoading(true);
             try {
-                const res = await fetch(`/api/sites/${site_id}/history`);
+                const res = await fetch(`${API_BASE_URL}/api/sites/${site_id}/history`);
                 const data = await res.json();
                 setHistoryData(data);
             } catch (err) {
@@ -75,7 +76,7 @@ export default function PathogenRadar() {
         if (idsToDispatch.length === 0) return;
         setLoading(true);
         try {
-            await fetch('/api/pathogen-alerts/dispatch', {
+            await fetch(`${API_BASE_URL}/api/pathogen-alerts/dispatch`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ site_ids: idsToDispatch })

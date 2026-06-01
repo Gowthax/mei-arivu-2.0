@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Package, AlertTriangle, TrendingDown, Truck, Plus, Edit2, Trash2, X, Phone, Mail, MapPin, Star, ShieldCheck, Loader, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useLanguage } from '../context/LanguageContext';
+import { API_BASE_URL } from '../config/api';
 
 export default function BioSupplyInventory() {
     const { t } = useLanguage();
@@ -20,7 +21,7 @@ export default function BioSupplyInventory() {
     });
 
     const fetchInventory = () => {
-        fetch('/api/inventory')
+        fetch(`${API_BASE_URL}/api/inventory`)
             .then(res => res.json())
             .then(data => {
                 setInventory(data);
@@ -41,7 +42,7 @@ export default function BioSupplyInventory() {
     const fetchWholesalers = async (category) => {
         setWholesalersLoading(true);
         try {
-            const res = await fetch(`/api/wholesalers?item_category=${encodeURIComponent(category)}`);
+            const res = await fetch(`${API_BASE_URL}/api/wholesalers?item_category=${encodeURIComponent(category)}`);
             const data = await res.json();
             setWholesalers(data);
         } catch (err) {
@@ -69,7 +70,7 @@ export default function BioSupplyInventory() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const url = modalMode === 'edit' ? `/api/inventory/${selectedItem.id}` : `/api/inventory`;
+        const url = modalMode === 'edit' ? `${API_BASE_URL}/api/inventory/${selectedItem.id}` : `${API_BASE_URL}/api/inventory`;
         const method = modalMode === 'edit' ? 'PUT' : 'POST';
         
         try {
@@ -93,7 +94,7 @@ export default function BioSupplyInventory() {
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this item?")) return;
         try {
-            const res = await fetch(`/api/inventory/${id}`, { method: 'DELETE' });
+            const res = await fetch(`${API_BASE_URL}/api/inventory/${id}`, { method: 'DELETE' });
             if (res.ok) {
                 toast.success("Item deleted.");
                 fetchInventory();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 export default function MeiArivuBot() {
     const { lang } = useLanguage();
@@ -32,7 +33,7 @@ export default function MeiArivuBot() {
         setIsLoading(true);
 
         try {
-            const response = await fetch('/api/chat/mentor', {
+            const response = await fetch(`${API_BASE_URL}/api/chat/mentor`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: userText, lang: 'en' })

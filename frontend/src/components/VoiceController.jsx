@@ -28,6 +28,7 @@ import React, {
   useMemo,
 } from 'react';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 // ── Language configuration ────────────────────────────────────────────────────
 const LANGUAGES = [
@@ -132,7 +133,7 @@ export default function VoiceController() {
     stopWaveAnimation();
 
     try {
-      const resp = await fetch('/api/chat/stream', {
+      const resp = await fetch(`${API_BASE_URL}/api/chat/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, language: selectedLang }),
@@ -196,7 +197,7 @@ export default function VoiceController() {
       formData.append('audio_file', blob, 'recording.webm');
       formData.append('language_code', selectedLang);
 
-      const resp = await fetch('/api/voice/process-speech', {
+      const resp = await fetch(`${API_BASE_URL}/api/voice/process-speech`, {
         method: 'POST',
         body: formData,
       });

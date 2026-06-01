@@ -3,6 +3,7 @@ import { Activity, AlertCircle, Droplets, Thermometer, Wind, Leaf, Cpu, Loader, 
 import { RadialBarChart, RadialBar, ResponsiveContainer } from 'recharts';
 import { useLanguage } from '../context/LanguageContext';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 const ICON_MAP = {
     Thermometer: Thermometer,
@@ -34,7 +35,7 @@ export default function TelemetryView() {
     // Fetch sites periodically if manual override is OFF
     useEffect(() => {
         const fetchSitesData = () => {
-            fetch('/api/sites')
+            fetch(`${API_BASE_URL}/api/sites`)
                 .then(res => res.json())
                 .then(data => {
                     setSites(data);
@@ -113,7 +114,7 @@ export default function TelemetryView() {
         try {
             if (selectedSiteId) {
                 // Full telemetry ingest with site tracking
-                const response = await fetch('/api/telemetry/ingest', {
+                const response = await fetch(`${API_BASE_URL}/api/telemetry/ingest`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -133,13 +134,13 @@ export default function TelemetryView() {
                 if (showToast) toast.success(`✅ AI diagnosis complete for ${data.site_updated.name}`, { duration: 2000 });
 
                 // Refresh sites list silently
-                fetch('/api/sites')
+                fetch(`${API_BASE_URL}/api/sites`)
                     .then(res => res.json())
                     .then(updated => setSites(updated))
                     .catch(err => console.error(err));
             } else {
                 // No site selected — run standalone AI analysis
-                const response = await fetch('/api/predict', {
+                const response = await fetch(`${API_BASE_URL}/api/predict`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

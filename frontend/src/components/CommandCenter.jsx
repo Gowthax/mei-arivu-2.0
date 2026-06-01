@@ -6,6 +6,7 @@ import { divIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import toast from 'react-hot-toast';
+import { API_BASE_URL } from '../config/api';
 
 // Madurai center
 const maduraiCenter = [9.9252, 78.1198];
@@ -114,12 +115,12 @@ export default function CommandCenter() {
     }, []);
 
     const fetchStatsAndSites = () => {
-        fetch('/api/sites')
+        fetch(`${API_BASE_URL}/api/sites`)
             .then(res => res.json())
             .then(data => setHotspots(data))
             .catch(err => console.error("Error fetching sites:", err));
 
-        fetch('/api/sites/stats')
+        fetch(`${API_BASE_URL}/api/sites/stats`)
             .then(res => res.json())
             .then(data => setStats(data))
             .catch(err => console.error("Error fetching stats:", err));
@@ -133,7 +134,7 @@ export default function CommandCenter() {
 
     const fetchSiteHistory = (siteId) => {
         setHistoryLoading(true);
-        fetch(`/api/sites/${siteId}/history`)
+        fetch(`${API_BASE_URL}/api/sites/${siteId}/history`)
             .then(res => res.json())
             .then(data => {
                 setSiteHistory(data);
