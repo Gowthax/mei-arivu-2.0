@@ -1040,36 +1040,3 @@ def update_profile(request: ProfileUpdateRequest, db: Session = Depends(get_db))
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-@app.get("/api/sites")
-def get_sites():
-    return []
-
-@app.get("/api/sites/stats")
-def get_site_stats():
-    return {
-        "active_sites": 0,
-        "waste_backlog": 0,
-        "avg_degradation": 0,
-        "alerts_active": 0
-    }
-
-@app.get("/api/profile")
-def get_profile():
-    return {
-        "name": "Mei Arivu User",
-        "role": "Administrator"
-    }
-
-@app.get("/api/auth/viewer")
-def auth_viewer():
-    return {
-        "status": "authenticated"
-    }
-
-@app.post("/api/chat/mentor")
-async def chat_mentor(data: dict):
-    message = data.get("message", "")
-
-    return {
-        "response": f"Mei Arivu AI received: {message}"
-    }
